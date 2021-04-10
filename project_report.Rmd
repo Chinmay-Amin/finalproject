@@ -1,0 +1,65 @@
+---
+title: "Project Report"
+author: "devanshi"
+date: "4/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(infer)
+library (readr)
+```
+## INTRODUCTION AND DATA
+
+
+Data Sourcing and Collecting: This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link https://github.com/fivethirtyeight/data/tree/master/police-killings
+
+Description of Relevant Variables:
+raceethnicity : Race/ethnicity of deceased; state : State where incident occurred; share_white : share of population; that is nonhispanice / white; share_bloack: share of population that is black; month: month of killing
+
+Glimpse of Dataset:
+
+```{r}
+urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv"
+police_killings<-read_csv(url(urlfile))
+glimpse(police_killings)
+```
+Research Topic: Do communities with higher proportions of black and hispanic persons experience more police killings than predominantly white communities? 
+
+Null Hypothesis: Police killings are equally prevalent in communities with higher proportions of black and hispanic persons and predominantly white communities
+
+Alternative Hypothesis: Police killings are more prevalent in communities with higher proportions of black and hispanic persons than they are in predominantly white communities
+
+## METHODOLOGY
+```{r}
+police_killings <- police_killings %>%
+  mutate(black_hispanic = case_when(
+    raceethnicity == "Black" ~ "B/H",
+    raceethnicity == "Hispanic/Latino" ~ "B/H",
+    raceethnicity == "White" ~ "W"
+  )) 
+
+p_hat <- police_killings %>%
+  specify(h_income ~ black_hispanic) %>%
+  calculate(stat = "diff in means", order = c("W", "B/H")) 
+  
+
+killings_boot <- police_killings %>%
+  specify(h_income ~ black_hispanic) %>%
+  generate(reps = 10000, type = "bootstrap") %>%
+  calculate(stat = "diff in means", order = c("W", "B/H")) 
+percentile_ci <- get_ci(killings_boot)
+
+visualize(killings_boot) +
+  shade_confidence_interval(endpoints = percentile_ci) + 
+  labs(title = "Race/Ethnicity Difference in Means Distribution for Household Income", 
+  x = "Race/Ethnicity", y = "Household Income")
+
+p_hat
+percentile_ci
+  
+```
+
+
