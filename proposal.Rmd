@@ -1,0 +1,85 @@
+---
+title: "FINAL PROJECT PROPOSAL"
+author: "Devanshi Pandya, Chinmay Amin, Archie Ju"
+date: "3/20/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
+                      comment = "#>", highlight = TRUE,
+                      fig.align = "center")
+```
+
+```{r}
+library(tidyverse)
+```
+
+#### DEVANSHI PANDYA PROJECT PROPOSAL
+
+Data Sourcing and Collection:
+The data was collected by polls conducted by various pollsters, including “YouGov”, “Morning Consult”, “Harris Poll”, “Ipsos”, etc, all of which are sponsored by the news reporting networks such as Economist, Politico, Huffington Post, CNN, etc. The data was collected between February 2020 and March 2021. This data has been sourced from (and reported by) the “Our Data” section of FiveThirtyEight: https://projects.fivethirtyeight.com/coronavirus-polls/
+
+Description of Relevant Variables:
+pollster: who collected the poll; subject: which President (Trump or Biden) the respondent is being asked about;
+start_date and end_date: the duration the poll was up for the population to respond; party: the political party the respondent is affiliated with; approve: percentage of respondents who approve of the subject’s response; disapprove: percentage of respondents who disapprove of the subject’s response
+This dataset shows the polls conducted by the different pollsters asking survey/poll respondents about Trump and Biden’s response to the coronavirus pandemic, respectively. 
+
+Glimpsing the dataset:
+
+```{r pressure, echo=TRUE}
+covid_response_data <- read_csv("covid_approval_polls.csv")
+glimpse(covid_response_data)
+```
+
+Research topic: How do Americans feel about each President’s Response to the Coronavirus pandemic? What are the trends per party affiliation, and what is the general opinion, regardless of party affiliation?
+
+Null Hypothesis: The proportion of Americans who approve of President Trump’s Response is equal to the proportion of Americans who approve of President Biden’s Response.
+
+Alternative Hypothesis: The proportion of Americans who approve of President Trump’s Response is less than the proportion of Americans who approve of President Biden’s Response.
+
+#### ARCHIE JU PROPOSAL
+
+Data Sourcing and Collecting:
+The data was collected by RAPTOR, sponsored by NBA prediction website FiveThirtyEight. It contains key indices that reflect a player's offensive and defensive performance by measuring the number of points a player contributes to his team’s offense and defense per 100 possessions in the 2020-2021 NBA season, from December 2020 to January 2021. The data is made publicly available on GitHub: https://github.com/fivethirtyeight/data/tree/master/nba-raptor
+
+Description of Some Variables in Dataset:
+raptor_onoff_offense =Points above average per 100 possessions added by player on offense, based only on plus-minus data, raptor_onoff_defense = Points above average per 100 possessions added by player on defense, based only on plus-minus data; raptor_onoff_total = Points above average per 100 possessions added by player based only on plus-minus data; war_reg_season = Wins Above Replacement for regular season; pace_impact = Player impact on team possessions per 48 minutes
+
+Glimpse of the Data:
+```{r}
+NBA_data <- read_csv("latest_RAPTOR_by_team.csv")
+glimpse(NBA_data)
+```
+
+Research Topic: Does an individual player’s effort matter in the basketball game? In other words, does an individual player who contributes significantly to the team’s offense and defense bring more wins to that team? Are players who contribute the most more likely to be on the teams with more wins?
+ 
+Null hypothesis: An individual player’s contribution does not bring more wins to the team: the proportion of players with positive contributions on winnings team (more win than league average) is the same as the proportion on non winning teams.
+
+Alternative Hypothesis: An individual player’s contribution does bring more wins for the team: the proportion of players with positive contribution on winning teams is greater than the proportion on non winning teams.
+
+#### CHINMAY AMIN PROPOSAL
+
+Data Sourcing and Collecting: This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link https://github.com/fivethirtyeight/data/tree/master/police-killings
+
+Description of Relevant Variables:
+raceethnicity : Race/ethnicity of deceased; state : State where incident occurred; share_white : share of population; that is nonhispanice / white; share_bloack: share of population that is black; month: month of killing
+
+Glimpse of Dataset:
+
+```{r}
+
+library (readr)
+urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv"
+police_killings<-read_csv(url(urlfile))
+glimpse(police_killings)
+```
+Research Topic: Do communities with higher proportions of black and hispanic persons experience more police killings than predominantly white communities? 
+
+Null Hypothesis: Police killings are equally prevalent in communities with higher proportions of black and hispanic persons and predominantly white communities
+
+Alternative Hypothesis: Police killings are more prevalent in communities with higher proportions of black and hispanic persons than they are in predominantly white communities
+
+
