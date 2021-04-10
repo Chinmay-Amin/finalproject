@@ -1,8 +1,10 @@
 ---
 title: "Project Report"
-author: "devanshi"
+author: "Devanshi, Chinmay, Archie"
 date: "4/10/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -12,13 +14,13 @@ library(infer)
 library (readr)
 ```
 ### INTRODUCTION AND DATA
-## Background and Motivation
+##### Background and Motivation
 The American police force is notorious for needlessly beating and killing. Moreover, such killings and mistreatment tend to disproportionately impact Black Americans and other poc groups. In May of 2020, the issue again sparked outrage, as the nation watched policeman Derek Chauvin kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color, to a national spotlight. Our research study will analyze which communities and groups of people are most impacted by police killings. 
 
-## Dataset in question
+##### Dataset in question
 The data overviews the demographics of individuals killed by police in the United States. This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link. Relevant variables in the dataset include raceethnicity : Race/ethnicity of deceased, state : State where incident occurred, share_white : share of population that is nonhispanic / white, share_bloack: share of population that is black, month: month of killing.
 
-## Research Question and Hypothesis
+### Research Question and Hypothesis
 
 Research Question: Among those who were killed by police, are the household incomes of White individuals greater than Black individuals?
 
@@ -34,10 +36,9 @@ Glimpse of Dataset:
 ```{r}
 urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv"
 police_killings<-read_csv(url(urlfile))
-glimpse(police_killings)
 ```
 
-## METHODOLOGY
+### METHODOLOGY
 ```{r}
 police_killings <- police_killings %>%
   mutate(black_hispanic = case_when(
