@@ -11,13 +11,23 @@ library(tidyverse)
 library(infer)
 library (readr)
 ```
-## INTRODUCTION AND DATA
+### INTRODUCTION AND DATA
+## Background and Motivation
+The American police force is notorious for needlessly beating and killing. Moreover, such killings and mistreatment tend to disproportionately impact Black Americans and other poc groups. In May of 2020, the issue again sparked outrage, as the nation watched policeman Derek Chauvin kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color, to a national spotlight. Our research study will analyze which communities and groups of people are most impacted by police killings. 
 
+## Dataset in question
+The data overviews the demographics of individuals killed by police in the United States. This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link. Relevant variables in the dataset include raceethnicity : Race/ethnicity of deceased, state : State where incident occurred, share_white : share of population that is nonhispanic / white, share_bloack: share of population that is black, month: month of killing.
 
-Data Sourcing and Collecting: This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link https://github.com/fivethirtyeight/data/tree/master/police-killings
+## Research Question and Hypothesis
 
-Description of Relevant Variables:
-raceethnicity : Race/ethnicity of deceased; state : State where incident occurred; share_white : share of population; that is nonhispanice / white; share_bloack: share of population that is black; month: month of killing
+Research Question: Among those who were killed by police, are the household incomes of White individuals greater than Black individuals?
+
+Null Hypothesis: The household incomes of White individuals who were killed by police are not greater than Black individuals who were killed by police
+
+Alternate Hypothesis: The household incomes of White individuals who were killed by police are greater than Black individuals who were killed by police
+
+dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
+background reading: https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
 
 Glimpse of Dataset:
 
@@ -26,11 +36,6 @@ urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-ki
 police_killings<-read_csv(url(urlfile))
 glimpse(police_killings)
 ```
-Research Topic: Do communities with higher proportions of black and hispanic persons experience more police killings than predominantly white communities? 
-
-Null Hypothesis: Police killings are equally prevalent in communities with higher proportions of black and hispanic persons and predominantly white communities
-
-Alternative Hypothesis: Police killings are more prevalent in communities with higher proportions of black and hispanic persons than they are in predominantly white communities
 
 ## METHODOLOGY
 ```{r}
