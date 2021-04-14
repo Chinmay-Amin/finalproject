@@ -2,33 +2,68 @@
 title: "Peer Review Doc"
 author: "Devanshi Pandya, Chinmay Amin, Archie JU"
 date: "4/14/2021"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
-### Note to Reader
+## Note to Reader
 The group we were assigned to review did not submit a project draft and only had their proposal uploaded. As a result, we will evaluate each of the three datasets and research questions they recommended in their project proposal. The only categories we could evaluate them on was "Introduction and Data" as well as "Final Considerations."
 
-### Peer Feedback 
-#### Introduction and Data
-Is the research question and goal of the report clearly stated?
-Does the introduction provide appropriate background context and motivation for a general reader?
-Is the source of the data stated with an appropriate citation?
-Is it clear when and how the data was collected?
-Is data manipulation described clearly (missing data, creation of new variables, etc)?
-Are the cases and relevant variables described?
+## Peer Feedback 
+
+### Introduction and Data
+
 
 Dataset 1: 
+
 a) The authors clearly state their research question for this dataset. They should also include a null and alternate hypothesis rather than simply including their prediction.
+
 b) Since this is only a proposal, the authors are missing their motivation/ background to studying the topic
+
 c) The proposal did include references to the dataset, but did not properly cite with MLA or APA 
+
 d) The authors did indicate that their data was collected through webscraping the "Encyclopedia Titanica" website, but did not indicate when the data was collected
+
 e) The group does not specify if they manipulated any variables and did not address missing data
+
 f) The authors state relevant variables, but don't describe them in detail. 
 
+
 Dataset 2: 
+
 a) Two research questions are provided, along with a null and alternate hypothesis. When writing their project draft, the team should decide which they want to study.  
+
 b) Authors have done a good job in describing the background information about their dataset and why their study will be important.
+
 c) Source of data is included in a link, and should be cited using the proper format if necessary.
+
 d) The authors do not include how and when the data was collected and would be a good idea if they mention that in their project draft.
+
 e) Since the group has not yet completed the methodology section of their report, they have not yet manipulated the chosen dataset.
+
 f) The cases and relevant variables should be described in an in-depth manner so that the readers of the report can understand their calculations, visualizations, and conclusions better.
+
+
+Dataset 3: 
+
+a) The authors list two research questions. In their final project report, they should narrow this down to one research question that they want to explore in depth. Moreover, the authors only list their predictions for the results of the data analysis. In their project report they should include a null and alternate hypothesis.
+
+b) The group clearly indicates the motivation behind choosing the dataset in question. This looks good for the final project report
+
+c) The authors state the source of the dataset and provide a reference. They might want to consider using a formal citation for their source in the final copy, perhaps through MLA or APA
+
+d) While the group does state how the data was collected (through webscraping), they do not indicate when it was collected. It might be a good idea for the group to clarify this, should they choose this dataset for their final project.
+
+e) The group does not indicate if they manipulated any variables, since this is only a proposal. The group also does not describe if any data is missing.
+
+f) The authors mention what some of the variables describe, but do not do so in depth. In the final report they should be clearer about what measurement is reflected by a particular variable name. 
+
+#### Final Considerations
+
+Yo archie just answer these questions for the proposal in general, not each dataset individually. 
+
+What is one question you have for the group after reading their analysis?
+What is one thing the group has done especially well?
+
+
 
