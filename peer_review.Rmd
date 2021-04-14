@@ -4,37 +4,31 @@ author: "Devanshi Pandya, Chinmay Amin, Archie JU"
 date: "4/14/2021"
 output: html_document
 ---
+### Note to Reader
+The group we were assigned to review did not submit a project draft and only had their proposal uploaded. As a result, we will evaluate each of the three datasets and research questions they recommended in their project proposal. The only categories we could evaluate them on was "Introduction and Data" as well as "Final Considerations."
 
-Introduction and Data
-
+### Peer Feedback 
+#### Introduction and Data
 Is the research question and goal of the report clearly stated?
 Does the introduction provide appropriate background context and motivation for a general reader?
 Is the source of the data stated with an appropriate citation?
 Is it clear when and how the data was collected?
 Is data manipulation described clearly (missing data, creation of new variables, etc)?
 Are the cases and relevant variables described?
-Methodology
 
-Do the visualizations correspond to the stated research question?
-Are visualizations effective and do they follow the visualization principles we have discussed in STA 199 (including elements like titles, labels, appropriate for the type of data, etc)?
-Is the choice of statistical method justified?
-Results
+Dataset 1: 
+a) The authors clearly state their research question for this dataset
+b) Since this is only a proposal, the authors are missing their motivation/ background to studying the topic
+c) The proposal did include references to the dataset, but did not properly cite with MLA or APA 
+d) The authors did indicate that their data was collected through webscraping the "Encyclopedia Titanica" website, but did not indicate when the data was collected
+e) The group does not specify if they manipulated any variables and did not address missing data
+f) The authors state relevant variables, but don't describe them in detail. 
 
-Are the chosen techniques for answering the research question appropriate for the research context and type of data?
-Is the research question answered effectively?
-Discussion
+Dataset 2: 
+a) 
+b)
+c)
+d)
+e)
+f)
 
-Is the answer to the research question summarized and supported by statistical arguments?
-Are limitations of the analysis clearly outlined?
-General
-
-Is the writing clear (including elements like spelling, grammar, etc)? Are you able to follow what is being done?
-Is the coding clear? Are you able to follow precisely what is being done?
-Are you able to reproduce all aspects of the report, including output, visualizations, etc? Have the reproducibility principles we have discussed in STA 199 been followed?
-Is the report well-formatted and readable (including layout but also only reporting relevant output, with no extraneous code, visuals, etc)?
-Have they appropriate outlined the next steps with gaps clearly defined?
-Any suggestions for them moving forward?
-Final Considerations
-
-What is one question you have for the group after reading their analysis?
-What is one thing the group has done especially well?
