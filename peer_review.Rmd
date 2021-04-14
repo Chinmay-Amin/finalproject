@@ -17,7 +17,7 @@ Is data manipulation described clearly (missing data, creation of new variables,
 Are the cases and relevant variables described?
 
 Dataset 1: 
-a) The authors clearly state their research question for this dataset
+a) The authors clearly state their research question for this dataset. They should also include a null and alternate hypothesis rather than simply including their prediction.
 b) Since this is only a proposal, the authors are missing their motivation/ background to studying the topic
 c) The proposal did include references to the dataset, but did not properly cite with MLA or APA 
 d) The authors did indicate that their data was collected through webscraping the "Encyclopedia Titanica" website, but did not indicate when the data was collected
@@ -25,10 +25,10 @@ e) The group does not specify if they manipulated any variables and did not addr
 f) The authors state relevant variables, but don't describe them in detail. 
 
 Dataset 2: 
-a) 
-b)
-c)
-d)
-e)
-f)
+a) Two research questions are provided, along with a null and alternate hypothesis. When writing their project draft, the team should decide which they want to study.  
+b) Authors have done a good job in describing the background information about their dataset and why their study will be important.
+c) Source of data is included in a link, and should be cited using the proper format if necessary.
+d) The authors do not include how and when the data was collected and would be a good idea if they mention that in their project draft.
+e) Since the group has not yet completed the methodology section of their report, they have not yet manipulated the chosen dataset.
+f) The cases and relevant variables should be described in an in-depth manner so that the readers of the report can understand their calculations, visualizations, and conclusions better.
 
