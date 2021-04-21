@@ -101,7 +101,7 @@ ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) 
   scale_fill_viridis(discrete=TRUE, option = "D", name="gender") +
   labs(main= "Gender Distribution of Race/Ethnicity", x= "Race/Ethnicity", y="Count")
 ```
-
+ 
 
 *raceethnicity, pov, urate (mutate var that is value x 100) 3 variable plot
 
