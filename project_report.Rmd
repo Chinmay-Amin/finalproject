@@ -8,7 +8,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(infer)
 library (readr)
@@ -22,11 +22,7 @@ The data overviews the demographics of individuals killed by police in the Unite
 
 ### Research Question and Hypothesis
 
-Research Question: Among those who were killed by police, are the household incomes of White individuals greater than Black & Hispanic individuals?
-
-Null Hypothesis: The household incomes of White individuals who were killed by police are not greater than Black & Hispanic individuals who were killed by police
-
-Alternate Hypothesis: The household incomes of White individuals who were killed by police are greater than Black & Hispanic individuals who were killed by police
+GENERAL QUESTION: How do demographic factors differ amongst those who have been killed by the police?
 
 dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
 background reading: https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
@@ -38,15 +34,32 @@ urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-ki
 police_killings<-read_csv(url(urlfile))
 glimpse (police_killings)
 ```
+*spatial data make a map
 
 ### METHODOLOGY
 ```{r}
 police_killings <- police_killings %>%
+drop_na
+
+police_killings %>%
+group_by(raceethnicity) %>%
+  summarise(count = n())
+
+```
+
+
+Research Question: Among those who were killed by police, are the household incomes of White individuals greater than Black & Hispanic individuals?
+
+Null Hypothesis: The household incomes of White individuals who were killed by police are not greater than Black & Hispanic individuals who were killed by police
+
+Alternate Hypothesis: The household incomes of White individuals who were killed by police are greater than Black & Hispanic individuals who were killed by police
+```{r}
+police_killings %>%
   mutate(black_hispanic = case_when(
     raceethnicity == "Black" ~ "B/H",
     raceethnicity == "Hispanic/Latino" ~ "B/H",
     raceethnicity == "White" ~ "W"
-  )) 
+  ))  %>%
 
 p_hat <- police_killings %>%
   specify(h_income ~ black_hispanic) %>%
@@ -67,8 +80,31 @@ visualize(killings_boot) +
 p_hat
 percentile_ci
 ```
-
 Using sample data to make conclusions about the underlying population the sample came from is statistical inference. In our research, we want to examine whether household incomes of all White individuals in the U.S. killed by police are greater than that of Black & Hispanic individuals killed with a sample data of size 467, so we have to use statistical inference. To be more specific, we uses functions from the "infer" package to create 10,0000 bootstrap simulation, calculate bootstrap stats "differences in means" , and construct a 95% confidence interval of difference of mean household income between white and non-white victims (h_income_white - h_income_B/H). Then we visualize our confidence interval and bootstrap distribution using visualize() & shade_confidence_interval() function. If the confidence interval captures zero on the plot, we fail to reject our null hypothesis; if not, we have convincing evidence that household incomes of white killed by police is not the same as that of Black & Hispanic killed.
+
+*talk about test statistic?
+
+PROPORTION BY GENDER - STAT SIGNIFICANT THAT MORE MEN KILLED
+```{r}
+police_killings %>% 
+  mutate(better = ifelse(gender == "Male", "better", "worse")) %>% 
+  prop_test(response = better, success = "better", conf_int = FALSE, p = 0.5,
+            alternative = "greater", z = TRUE)
+```
+
+RACE/ETHNICITY BY GENDER
+```{r}
+library(viridis)
+ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) + 
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_viridis(discrete=TRUE, option = "D", name="gender") +
+  labs(main= "Gender Distribution of Race/Ethnicity", x= "Race/Ethnicity", y="Count")
+```
+
+
+*raceethnicity, pov, urate (mutate var that is value x 100) 3 variable plot
+
 
 ### RESULTS
 We obtain a 95% confidence interval from 3346	to 11023, meaning that we are 95% confident that the interval [3346, 11023] captures the true difference of mean household income (white - black & hispanic). The interval is consistently positive, meaning that we are confident to say that the mean household income of white killed by police is greater than that of black or hispanic killed by police, at alpha = 0.05, based on our bootstrap simulation model.
