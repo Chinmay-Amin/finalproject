@@ -54,12 +54,12 @@ Null Hypothesis: The household incomes of White individuals who were killed by p
 
 Alternate Hypothesis: The household incomes of White individuals who were killed by police are greater than Black & Hispanic individuals who were killed by police
 ```{r}
-police_killings %>%
+police_killings <- police_killings %>%
   mutate(black_hispanic = case_when(
     raceethnicity == "Black" ~ "B/H",
     raceethnicity == "Hispanic/Latino" ~ "B/H",
     raceethnicity == "White" ~ "W"
-  ))  %>%
+  ))  
 
 p_hat <- police_killings %>%
   specify(h_income ~ black_hispanic) %>%
@@ -103,9 +103,34 @@ ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) 
 ```
  
 
-*raceethnicity, pov, urate (mutate var that is value x 100) 3 variable plot
+*raceethnicity, college, urate 
+```{r}
 
+p <- ggplot(police_killings, aes(x = college, y = urate, color = raceethnicity)) +
+  geom_point() + 
+  labs(title = "Relationship Between College Graduation and Unemployment Rate",
+        x = "Proportion Graduated from College", y = "Unemployment Rate") + 
+        scale_color_viridis(discrete=TRUE, option = "D", name="Race/Ethnicity")
+p
 
+```
+talk about cluster at  left  where we see low college and high unemployment, talk about obs by race
+conclude that much fewer people killed came from areas where people got secondary education and had low unemployment; we see correlation between those who were killed and lower levels of ed/higher unemployment
+
+NOW TESTING FOR THE CORRELATION BETWEEN THESE TWO VARIABLES
+```{r}
+police_killings %>%
+  summarize(cor(college, urate))
+```
+^moderate correlation
+
+```{r}
+model_1 <- lm(pov ~ raceethnicity + gender, data = police_killings)
+model_1 %>%
+  tidy() %>%
+  select(term, estimate)
+```
+^we can do linear regression to determine predictors of poverty rate and then assess them like we did in exam 2
 ### RESULTS
 We obtain a 95% confidence interval from 3346	to 11023, meaning that we are 95% confident that the interval [3346, 11023] captures the true difference of mean household income (white - black & hispanic). The interval is consistently positive, meaning that we are confident to say that the mean household income of white killed by police is greater than that of black or hispanic killed by police, at alpha = 0.05, based on our bootstrap simulation model.
 
