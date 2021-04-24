@@ -13,6 +13,7 @@ library(tidyverse)
 library(infer)
 library (readr)
 library(sf)
+
 ```
 ### INTRODUCTION AND DATA
 ##### Background and Motivation
@@ -50,8 +51,8 @@ group_by(raceethnicity) %>%
 
 ### METHODOLOGY & RESULTS
 ```{r policekillings_map}
-police_kilings_df <- read.csv("data/police_killings.csv")
-str(police_killigs_df)
+police_killings_df <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv")
+str(police_killings_df)
 
 police_killings_sf <- st_as_sf(police_killings_df, coords = c("latitude", "longitude"))
 str(police_killings_sf)
@@ -61,7 +62,11 @@ st_crs(police_killings_sf)
 
 st_write(police_killings_sf, "data/police_killings", driver = "ESRI Shapefile")
 st_write(police_killings_sf, "data/police_killings", driver = "ESRI Shapefile", delete_layer = TRUE)
+
+  
 ```
+
+
 https://cengel.github.io/R-spatial/intro.html
 
 ##### 1) Household income by ethnicity
