@@ -25,6 +25,7 @@ The data overviews the demographics of individuals killed by police in the Unite
 ### Research Question and Hypothesis
 
 GENERAL QUESTION: How do demographic factors differ among those who have been killed by the police?
+GENERAL HYPOTHESIS: We predict that on average, more men are killed by the police than women for every race/ethnicity. Between the races, we expect that Black and Hispanic/Latino people, on average, come from lower socioeconomic class and therefore have lower household incomes, college graduation rates, and employment rates.
 
 ### Glimpse of Dataset:
 Dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
@@ -45,11 +46,11 @@ police_killings %>%
 group_by(raceethnicity) %>%
   summarise(count = n())
 ```
+^ need to talk about this? or get rid of it?
 *spatial data make a map
 
 #### USA Map of Police Killings
 
-### METHODOLOGY & RESULTS
 ```{r policekillings_map}
 police_killings_df <- read.csv("https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv")
 str(police_killings_df)
@@ -68,18 +69,57 @@ st_write(police_killings_sf, "data/police_killings", driver = "ESRI Shapefile", 
 
 
 https://cengel.github.io/R-spatial/intro.html
+### METHODOLOGY
+*theres like a summary statistics package thing we could use with household income as y var and group by race/ethnicity i think
 
-##### 1) Household income by ethnicity
+##### Sub-question 1: Killing cases by GENDER
 *Research Question*
-Among those who were killed by police, are the household incomes of White individuals greater than Black & Hispanic individuals?
+Are men more likely to be killed by police? 
+Null hypothesis: The proportion of male victims among police killing cases is not greater than 50%.
+Alternative hypothesis: The proportion of male victims among police killing cases is greater than 50%.
 
-Null Hypothesis: The household incomes of White individuals who were killed by police are not greater than Black & Hispanic individuals who were killed by police.
-Alternate Hypothesis: The household incomes of White individuals who were killed by police are greater than Black & Hispanic individuals who were killed by police.
+Given $\mu1 = \mu(male)$ and $\mu2 = \mu(female)$:
 
+$H_0: \mu1 = \mu2$
+
+$H_1: \mu1 > \mu2$
+*Methodology*
+To answer the research question, we use Central Limit Theorem Based Hypothesis Testing. We use "prop_test" function from the "infer" package to test if the proportion of male victims is greater than 50%. If the p-value of it being less than 50% is smaller than 0.05, we have convincing evidence to reject the null hypothesis. If the p-value is greater than 0.05, then we fail to reject the null hypothesis. To make the p-value represent that of < 50%, we input alternative to be "greater" in the prop_test. We created a segmented bar plot to visualize the total men and women killed by police in each ethnicity group. Gender is represented by color.
+
+```{r}
+police_killings %>% 
+  mutate(better = ifelse(gender == "Male", "better", "worse")) %>% 
+  prop_test(response = better, success = "better", conf_int = FALSE, p = 0.5,
+            alternative = "greater", z = TRUE)
+```
+
+```{r}
+library(viridis)
+ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) + 
+  geom_bar() +
+  coord_flip() + 
+  scale_fill_viridis(discrete=TRUE, option = "D", name="gender") +
+  labs(title= "Gender Distribution of Race/Ethnicity", x= "Race/Ethnicity", y="Count") +
+  theme_bw()
+```
+
+justify the choice of statistical method(s) used to answer your research question
+
+##### Sub-question 2: Household income by ethnicity
+*Research Question*
+Among those who were killed by police, are the household incomes of White individuals greater than Black & Hispanic/Latino individuals?
+
+Null Hypothesis: The household incomes of White individuals who were killed by police are not greater than Black & Hispanic/Latino individuals who were killed by police.
+Alternate Hypothesis: The household incomes of White individuals who were killed by police are greater than Black & Hispanic/Latino individuals who were killed by police.
+
+Given $\mu1 = \mu(White)$ and $\mu2 = \mu(Black/Hispanic/Latino)$:
+
+$H_0: \mu1 = \mu2$
+
+$H_1: \mu1 > \mu2$
 *Methodology*
 To answer the research question, we constructed a 95% simulation based confidence interval. We use functions from the "infer" package to create 10,000 bootstrap simulation, calculate bootstrap stats "differences in means" , and construct a 95% confidence interval of difference of mean household income between white and non-white victims (h_income_white - h_income_B/H). To visualize the confidence interval and bootstrap distribution, we use visualize() & shade_confidence_interval() function. If the confidence interval on the plot captures zero, it means that we cannot rule out the possibility that household income of white people maybe lower than that of black&hispanic people and thus we fail to reject our null hypothesis. If the entire confidence interval is consistently positive, then we obtain convincing evidence to reject the null hypothesis.
 
-*Results*
 ```{r}
 police_killings <- police_killings %>%
   mutate(black_hispanic = case_when(
@@ -109,64 +149,14 @@ p_hat
 percentile_ci
 ```
 
-From simulation, we get a 95% confidence interval from 3413 to 10901. It does not have value lower than 0. It means that we reject null hypothesis that the household incomes of White individuals who were killed by police are the same as Black & Hispanic victim. 
+justify the choice of statistical method(s) used to answer your research question
 
-##### 2): Killing cases by GENDER
-*Research Question*
-Are men more likely to be killed by police? 
-Null hypothesis: The proportion of male victims among police killing cases is not greater than 50%.
-Alternative hypothesis: The proportion of male victims among police killing cases is greater than 50%.
+##### Sub-question 3): College, Unemployment, & Race/Ethnicity
+
+The third demographic relationship we want to investigate is the relationship between college graduation and unemployment rates for each race/ethnicity, to determine if there is a correlation between these variables amongst those have been killed by the police. 
+
 *Methodology*
-To answer the research question, we use Central Limit Theorem Based Hypothesis Testing. We use "prop_test" function from the "infer" package to test if the proportion of male victims is greater than 50%. If the p-value of it being less than 50% is smaller than 0.05, we have convincing evidence to reject the null hypothesis. If the p-value is greater than 0.05, then we fail to reject the null hypothesis. To make the p-value represent that of < 50%, we input alternative to be "greater" in the prop_test. We created a segmented bar plot to visualize the total men and women killed by police in each ethnicity group. Gendered is represented by color.
-
-```{r}
-police_killings %>% 
-  mutate(better = ifelse(gender == "Male", "better", "worse")) %>% 
-  prop_test(response = better, success = "better", conf_int = FALSE, p = 0.5,
-            alternative = "greater", z = TRUE)
-```
-
-```{r}
-library(viridis)
-ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) + 
-  geom_bar() +
-  coord_flip() + 
-  scale_fill_viridis(discrete=TRUE, option = "D", name="gender") +
-  labs(main= "Gender Distribution of Race/Ethnicity", x= "Race/Ethnicity", y="Count") +
-  theme_bw()
-```
-Result:
-From hypothesis testing, we obtain a t-stats of 19.5 and a p-value of 1.285552e-85, almost zero, way smaller than 0.05. This means that we are confident to reject the null hypothesis at 95% confidence level.
-From visualization, we see that it is indeed men who takes up the largest proportion of cases killed by police, which echoes with the result from CLT-based hypothesis testing.
-
-
-##### Research Question 3): College, Unemployment, & raceethnicity
-*Methodology*
-To analyze the how percentage of college education, unemployment, and poverty rate influences the count of police shooting happening in that county, we would run a linear regression model whose response variable is number of police shooting cases by county and the three explanatory variables are "college", "urate", and "pov". The number of police shooting cases by county is not offered in the original dataset and we mutate it in the first code chunk. The "urate" variable is not on scale of 1-100 and we also need to change it before running regression,
-
-```{r}
-killings_by_community <- police_killings %>% 
-  group_by(county_id) %>% 
-  summarise(count = n(), college, urate, pov)
-killings_by_community <- killings_by_community %>% 
-  group_by(county_id) %>% 
-  summarise(count, college = median(college), urate = median (urate), pov = median(pov)) %>% 
-  distinct()
-```
-
-```{r}
-model_1 <- lm(count ~ college + urate + pov, data = killings_by_community)
-model_1 %>%
-  tidy() %>%
-  select(term, estimate)
-```
-
-
-```{r}
-police_killings %>%
-  summarize(cor(college, urate))
-```
-
+First, we want to visualize the relationship between college graduation and unemployment rate, so we make a plot of those variables with the points colored by race/ethnicity.
 ```{r}
 p <- ggplot(police_killings, aes(x = college, y = urate, color = raceethnicity)) +
   geom_point() + 
@@ -175,10 +165,87 @@ p <- ggplot(police_killings, aes(x = college, y = urate, color = raceethnicity))
         scale_color_viridis(discrete=TRUE, option = "D", name="Race/Ethnicity")
 p
 ```
+Here, we can clearly see that the higher unemployment rates happen at the lower college graduation rates across all races/ethnicities. Additionally, the distribution of colors suggests that, unlike our hypothesis, the graduation rates for white people are not lower than those of the other ethnicities. What we can observe, though, is that the highest unemployment rates amongst those killed by the police are in counties where people Black or Asian/Pacific Islander race/ethnicity live.
 
-talk about cluster at  left  where we see low college and high unemployment, talk about obs by race
-conclude that much fewer people killed came from areas where people got secondary education and had low unemployment; we see correlation between those who were killed and lower levels of ed/higher unemployment
-
-
+In order to quantify the relationship observed in our visualization, we can find the correlation between college graduation and unemployment rates.
+```{r}
+police_killings %>%
+  summarize(cor(college, urate))
 ```
-^we can do linear regression to determine predictors of poverty rate and then assess them like we did in exam 2
+```{r}
+boot_corr <- police_killings %>% 
+  specify(college ~ urate) %>% 
+  generate(reps = 10000, type = "bootstrap") %>% 
+  calculate(stat = "correlation") 
+  
+ci_corr <- get_ci(boot_corr, level = .99)
+ci_corr
+```
+
+justify the choice of statistical method(s) used to answer your research question
+
+### RESULTS/DISCUSSION
+
+## Sub-question 1
+Result:
+From hypothesis testing, we obtain a t-stats of 19.5 and a p-value of 1.285552e-85, almost zero, way smaller than 0.05. This means that we are confident to reject the null hypothesis at 95% confidence level.
+From visualization, we see that it is indeed men who takes up the largest proportion of cases killed by police, which echoes with the result from CLT-based hypothesis testing.
+
+## Sub-question 2
+Result:
+From simulation, we get a 95% confidence interval from 3413 to 10901. It does not have value lower than 0. It means that we reject null hypothesis that the household incomes of White individuals who were killed by police are the same as Black & Hispanic victim. 
+
+## Sub-question 3
+We observe a correlation of -0.474 between college graduation and unemployment rates, which is a moderate correlation. We are 99% confident that the true correlation between heat and humidity is between -0.54 to -0.405.
+This lines up with our visualization and suggests that although the correlation is not the strongest, it is not negligible and has implications on the demographic of people more often killed by the police.
+
+## Running a Linear Model and Testing Fit
+```{r}
+model_1 <- lm(h_income ~ raceethnicity + gender, data = police_killings)
+model_1 %>%
+  tidy() %>%
+  select(term, estimate)
+```
+someone add in the linear model and an interpretation of this linear model
+
+We can test our regression model for household income... fill out this description
+```{r}
+model_1_aug <- augment(model_1)
+model_1_aug
+```
+INDEPENDENCE
+```{r}
+ggplot(data = model_1_aug, 
+       aes(x = 1:nrow(police_killings), 
+           y = .resid)) + 
+  geom_point() + 
+  labs(x = "Index", y = "Residual", title = "Independence Plot")
+```
+EQUAL VARIANCE AND LINEARITY:
+```{r}
+ggplot(model_1_aug, mapping = aes(x= .fitted, y= .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_hline(yintercept = 0, lwd =2, col = "blue", lty =2) +
+  labs(x = "Predicted Count", y = "Residuals", title = "Variance and Linearity Plot")
+```
+NORMALITY
+
+```{r}
+ggplot(model_1_aug, mapping = aes(x = .resid)) +
+  geom_histogram(bins = 15) + 
+  labs(x = "Residuals", title = "Normality Histogram")
+
+ggplot(model_1_aug, mapping = aes(sample = .resid)) +
+  stat_qq() + 
+  stat_qq_line() +
+  labs(title = "Normality Q-Q Plot")
+```
+ASSESS THESE FACTORS (it's in the notes and also the exam how to interpret, and make conclusions based on that)
+
+### DISCUSSION
+
+This section is a conclusion and discussion. This will require a summary of what you have learned about your research question along with statistical arguments supporting your conclusions. You should critique your own methods and provide suggestions for improving your analysis and future work. Issues pertaining to the reliability and validity of your data and the appropriateness of the statistical analyses should also be discussed. Also include a brief paragraph on what you would do differently if you were able to start over with the project.
+
+- re-state our conclusions from the results section, and say what this understanding speaks about broader context (men from lower socio-economic status and POC have higher occurrences of killings, what does mean etc)
+- critiquing methods - only includes certain variables and does not consider other types of effects; data only from half of a year so not super generalizable;
+- what we would do differently - consider variables regarding geogrphy and see if they have any correlation to what we are testing for (because geographic location also part of demography)
