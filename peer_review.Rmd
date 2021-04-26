@@ -6,8 +6,13 @@ output:
   pdf_document: default
   html_document: default
 ---
+<<<<<<< HEAD
 ## Note to Reader
 The group we were assigned to review did not submit a project draft and only had their proposal uploaded. As a result, we will evaluate each of the three datasets and research questions they recommended in their project proposal. The only categories we could evaluate them on was "Introduction and Data" as well as "Final Considerations."
+=======
+### Note to Reader
+The group we were assigned to review did not submit a project draft and only had their proposal uploaded. As a result, we will evaluate each of the three data sets and research questions they recommended in their project proposal. Therefore, the only categories we could evaluate them on was "Introduction and Data" as well as "Final Considerations."
+>>>>>>> cae3f9c02d2625b4b10fa196e65c8e838a272892
 
 ## Peer Feedback 
 
@@ -43,6 +48,7 @@ e) Since the group has not yet completed the methodology section of their report
 
 f) The cases and relevant variables should be described in an in-depth manner so that the readers of the report can understand their calculations, visualizations, and conclusions better.
 
+<<<<<<< HEAD
 
 Dataset 3: 
 
@@ -67,3 +73,28 @@ What is one thing the group has done especially well?
 
 
 
+=======
+Dataset 3:
+a) Two research questions are provided, along with null and alternative hypothesis. When writing their project draft, the team should decide which they want to study. 
+b) Authors have done a good job in describing the background information about their dataset -- the need to statistically predict players' success in NBA -- and why their study will be important for the basketball industry.
+c) Source of data is included in a link, and should be cited using the proper format (APA or MLA) if necessary.
+d) The authors do not include how and when the data was collected and would be a good idea if they mention that in their project draft.
+e) Since the group has not yet completed the methodology section of their report, they have not yet manipulated the chosen dataset.
+f) The case is well explained and the two research variable -- point per game & position of player -- are self-explanatory to audiences. If necessary, the author may want to explain the five different position in basketball a bit: what are they and how are they different.
+
+#### Final Considerations
+What is one question you have for the group after reading their analysis?
+What is one thing the group has done especially well?
+
+Dataset 1:
+a) Isn't this dataset the same as Lecture Notes #21 Logistic Regression? You should avoid using dataset covered in the class as part of the final project requirement.
+b) The author does a good job selecting proper variable -- passenger class -- that may be have actual cause-and-effect relationship with the response variabel -- passenger survival rate. 
+
+Dataset 2:
+a) How do you want to study the relationship between two dummy explanatory variable and one dummy response variable? What visualization technique do you want to employ?
+b) They've chosen an especially relevant topic -- police killing. The could yield interesting results if anlayzed well.
+
+Dataset 3:
+a) How do you measure success in NBA? Which variable in the dataset represent it?
+b) The two research questions are easy to be analyzed and the explanatory variables makes sense in real world -- points-per-game and positions can be important for basketball player's success.
+>>>>>>> cae3f9c02d2625b4b10fa196e65c8e838a272892
