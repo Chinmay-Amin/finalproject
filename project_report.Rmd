@@ -7,33 +7,27 @@ output:
   html_document: default
 ---
 
-```{r setup, include=FALSE, message = FALSE}
+```{r setup, include = FALSE, message = FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(infer)
 library (readr)
 library(sf)
+library(viridis)
 
 ```
 ## INTRODUCTION AND DATA
 
-### Sources of Dataset:
-Dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
+### Background and Motivation
 
-Additional sources: 
-https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
-https://thehill.com/changing-america/respect/equality/506421-90-percent-of-americans-believe-racism-police-brutality-are 
+It is clear that the American Police Force is in need of reform. Throughout its history, various police departments across the country have taken the national spotlight for their roles in beating, killing, or generally mistreating people of color. In May of 2020, the issue again sparked outrage, as the nation watched officers in the Minnesota Police Department kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color. Police brutality is a widely acknowledged issue, with roughly 90 percent of the nation agreeing that racial disparities in police treatment exist, according to a Guardian poll. Because the issue is of such importance to national dialogue, and since most Americans agree that it presents a pressing problem, we thought it would be important to investigate it further. More specifically, our research will explore which communities, groups, or demographics are most impacted by police killings in the United States.
 
-```{r, echo=FALSE}
+```{r, include =FALSE}
 urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv"
 police_killings<-read_csv(url(urlfile))
 police_killings <- police_killings %>% 
   mutate(urate = urate *100, college = college *100, pov = as.numeric(pov))
 ```
-
-### Background and Motivation
-
-It is clear that the American Police Force is in need of reform. Throughout its history, various police departments across the country have taken the national spotlight for their roles in beating, killing, or generally mistreating people of color. In May of 2020, the issue again sparked outrage, as the nation watched officers in the Minnesota Police Department kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color. Police brutality is a widely acknowledged issue, with roughly 90 percent of the nation agreeing that racial disparities in police treatment exist, according to a Guardian poll. Because the issue is of such importance to national dialogue, and since most Americans agree that it presents a pressing problem, we thought it would be important to investigate it further. More specifically, our research will explore which communities, groups, or demographics are most impacted by police killings in the United States.
 
 ```{r intro_data_visualization, fig.width= 12, fig.height=3}
 ggplot(data = police_killings, mapping = aes(x=state)) + 
@@ -44,9 +38,16 @@ ggplot(data = police_killings, mapping = aes(x=state)) +
 ```
 This introductory figure, from our chosen "policekillings" dataset, shows that police killings impacted every single American state to some degree in 2015. 
 
-### Dataset in question
+### Dataset Description and and Sourcing
 
 The "policekillings" dataset overviews the demographics of individuals killed by police in the United States. This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link. Relevant variables in the dataset include raceethnicity : Race/ethnicity of deceased, state : State where incident occurred, share_white : share of population that is nonhispanic / white, share_bloack: share of population that is black, month: month of killing.
+
+Dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
+
+Additional sources: 
+https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
+https://thehill.com/changing-america/respect/equality/506421-90-percent-of-americans-believe-racism-police-brutality-are 
+
 
 ### Research Question and Hypothesis
 
@@ -54,7 +55,6 @@ GENERAL QUESTION: How do demographic factors differ among those who have been ki
 GENERAL HYPOTHESIS: We predict that on average, more men are killed by the police than women for every race/ethnicity. Between the races, we expect that Black and Hispanic/Latino people, on average, come from lower socioeconomic class and therefore have lower household incomes, college graduation rates, and employment rates.
 
 ## METHODOLOGY
-
 
 ### Sub-question 1: Race/Ethnicity and Gender
 
@@ -65,13 +65,14 @@ Are men more likely to be killed by police?
 Let $\mu1 = \mu(male)$ and $\mu2 = \mu(female)$:
 
 $H_0: \mu1 = \mu2$
-Null hypothesis: The proportion of male victims among police killing cases is not greater than 50%.
 $H_1: \mu1 > \mu2$
+
+Null hypothesis: The proportion of male victims among police killing cases is not greater than 50%.
 Alternative hypothesis: The proportion of male victims among police killing cases is greater than 50%.
 
 *Methodology*
 
-To answer the research question, we use Central Limit Theorem Based Hypothesis Testing on the proportion of male victims. If the p-value of such proportion being less than 50% is smaller than 0.05, we have convincing evidence to reject the null hypothesis. If the p-value is greater than 0.05, then we fail to reject the null hypothesis. 
+To answer the research question, we use Central Limit Theorem Based Hypothesis Testing on the proportion of male victims.
 
 ```{r, warning = FALSE}
 police_killings %>% 
@@ -81,7 +82,7 @@ police_killings %>%
 ```
 
 ```{r, fig.width=6, fig.height=3}
-library(viridis)
+
 ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) + 
   geom_bar() +
   coord_flip() + 
@@ -102,9 +103,9 @@ Among those who were killed by police, are the household incomes of White indivi
 Let $\mu1 = \mu(White)$ and $\mu2 = \mu(Black/Hispanic/Latino)$:
 
 $H_0: \mu1 = \mu2$
-Null Hypothesis: The household incomes of White individuals who were killed by police are not greater than Black & Hispanic/Latino individuals who were killed by police.
-
 $H_1: \mu1 > \mu2$
+
+Null Hypothesis: The household incomes of White individuals who were killed by police are not greater than Black & Hispanic/Latino individuals who were killed by police.
 Alternate Hypothesis: The household incomes of White individuals who were killed by police are greater than Black & Hispanic/Latino individuals who were killed by police.
 
 *Methodology*
@@ -153,8 +154,6 @@ percentile_ci
 
 Justification of Choices: Creating a 95% simulation based confidence interval allows us to investigate our research question since it allows us to better understand the differences in mean household income between white and non-white victims of police killings. The method was chosen since it allows us to claim, with 95% confidence, that the difference in mean household income between the two demographic groups falls between a certain range. If, through this method, we discovered that our 95% confidence interval does not include 0, or is consistently positive, we could conclude that the average household income for Caucasian individuals is greater than that of African Americans, and fail to reject the null hypothesis. As a result this method enhances our understanding of the research question.
 
-
-
 ### Sub-question 3): College, Unemployment, & Race/Ethnicity
 
 The third demographic relationship we want to investigate is the relationship between college graduation and unemployment rates for each race/ethnicity, to determine if there is a correlation between these variables amongst those have been killed by the police. 
@@ -162,6 +161,7 @@ The third demographic relationship we want to investigate is the relationship be
 *Methodology*
 
 First, we want to visualize the relationship between college graduation and unemployment rate, so we make a plot of those variables with the points colored by race/ethnicity.
+
 ```{r, fig.width=6, fig.height=3, warning = FALSE}
 p <- ggplot(police_killings, aes(x = college, y = urate, color = raceethnicity)) +
   geom_point() +
@@ -175,6 +175,7 @@ p
 Here, we can clearly see that the higher unemployment rates happen at the lower college graduation rates across all races/ethnicities. Additionally, the distribution of colors suggests that, unlike our hypothesis, the graduation rates for white people are not lower than those of the other ethnicities. What we can observe, though, is that the highest unemployment rates amongst those killed by the police are in counties where people Black or Asian/Pacific Islander race/ethnicity live.
 
 In order to quantify the relationship observed in our visualization, we can find the correlation between college graduation and unemployment rates. Here, again we are constructing simulation-based 99% confidence interval on the correlation between two rates.
+
 ```{r, include = FALSE}
 police_killings %>%
   summarize(cor(college, urate))
