@@ -17,7 +17,7 @@ library(sf)
 ```
 ## INTRODUCTION AND DATA
 
-### Sources and Glimpse of Dataset:
+### Sources of Dataset:
 Dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
 
 Additional sources: 
@@ -122,7 +122,7 @@ police_killings %>%
 
 Now, to answer the research question, we constructed a simulation-based 95%  confidence interval. It is an interval of difference of household income between white and non-white victims (h_income_white - h_income_B/H). If the confidence interval on the plot captures zero, we cannot rule out the possibility that household income of white people maybe lower than that of Black & Hispanic people and we fail to reject the null hypothesis. If the entire confidence interval is consistently positive, then we obtain convincing evidence to reject the null hypothesis.
 
-```{r, fig.width=6, fig.height=3}
+```{r, fig.width=6, fig.height=3, warning = FALSE}
 police_killings <- police_killings %>%
   mutate(black_hispanic = case_when(
     raceethnicity == "Black" ~ "B/H",
@@ -162,7 +162,7 @@ The third demographic relationship we want to investigate is the relationship be
 *Methodology*
 
 First, we want to visualize the relationship between college graduation and unemployment rate, so we make a plot of those variables with the points colored by race/ethnicity.
-```{r, fig.width=6, fig.height=3}
+```{r, fig.width=6, fig.height=3, warning = FALSE}
 p <- ggplot(police_killings, aes(x = college, y = urate, color = raceethnicity)) +
   geom_point() +
   labs(title = "Relationship Between College Graduation and Unemployment Rate",
@@ -171,6 +171,7 @@ p <- ggplot(police_killings, aes(x = college, y = urate, color = raceethnicity))
   theme_bw()
 p
 ```
+
 Here, we can clearly see that the higher unemployment rates happen at the lower college graduation rates across all races/ethnicities. Additionally, the distribution of colors suggests that, unlike our hypothesis, the graduation rates for white people are not lower than those of the other ethnicities. What we can observe, though, is that the highest unemployment rates amongst those killed by the police are in counties where people Black or Asian/Pacific Islander race/ethnicity live.
 
 In order to quantify the relationship observed in our visualization, we can find the correlation between college graduation and unemployment rates. Here, again we are constructing simulation-based 99% confidence interval on the correlation between two rates.
