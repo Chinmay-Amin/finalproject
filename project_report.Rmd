@@ -21,28 +21,31 @@ library(sf)
 
 It is clear that the American Police Force is in need of reform. Throughout its history, various police departments across the country have taken the national spotlight for their roles in beating, killing, or generally mistreating people of color. In May of 2020, the issue again sparked outrage, as the nation watched officers in the Minnesota Police Department kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color. Police brutality is a widely acknowledged issue, with roughly 90 percent of the nation agreeing that racial disparities in police treatment exist, according to a Guardian poll. Because the issue is of such importance to national dialogue, and since most Americans agree that it presents a pressing problem, we thought it would be important to investigate it further. More specifically, our research will explore which communities, groups, or demographics are most impacted by police killings in the United States.
 
-### Dataset in question
-
-The data overviews the demographics of individuals killed by police in the United States. This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link. Relevant variables in the dataset include raceethnicity : Race/ethnicity of deceased, state : State where incident occurred, share_white : share of population that is nonhispanic / white, share_bloack: share of population that is black, month: month of killing.
-
-### Introductory visualization
 ```{r intro_data_visualization, fig.width=12, fig.height=8}
 ggplot(data = police_killings, mapping = aes(x=state)) + 
   geom_bar() + 
   labs(title= "Number of Police Killings by State (January - June 2015)", x=
   "State", y="Number of People Killed")
 ```
-This introductory figure from data in policekillings in part demonstrates our interest in exploring this topic. As evident from the figure, police killings  impacted every single American state to some degree in 2015. Consequently, we felt compelled to better understand the demographics behind these numbers.
 
+This introductory figure, from our chosen "policekillings" dataset, motivates our group to explore this topic. As evident from the figure, police killings  impacted every single American state to some degree in 2015. Consequently, we felt compelled to better understand the demographics behind these numbers.
+
+### Dataset in question
+
+The "policekillings" dataset overviews the demographics of individuals killed by police in the United States. This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link. Relevant variables in the dataset include raceethnicity : Race/ethnicity of deceased, state : State where incident occurred, share_white : share of population that is nonhispanic / white, share_bloack: share of population that is black, month: month of killing.
 
 ### Research Question and Hypothesis
 
 GENERAL QUESTION: How do demographic factors differ among those who have been killed by the police?
 GENERAL HYPOTHESIS: We predict that on average, more men are killed by the police than women for every race/ethnicity. Between the races, we expect that Black and Hispanic/Latino people, on average, come from lower socioeconomic class and therefore have lower household incomes, college graduation rates, and employment rates.
 
-### Glimpse of Dataset:
+### Sources and Glimpse of Dataset:
 Dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
-background reading: https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
+
+Additional sources: 
+https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
+https://thehill.com/changing-america/respect/equality/506421-90-percent-of-americans-believe-racism-police-brutality-are 
+
 ```{r, warning = FALSE}
 urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv"
 police_killings<-read_csv(url(urlfile))
@@ -88,7 +91,8 @@ ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) 
   theme_bw()
 ```
 
-Justification of Choices: We use "prop_test" function from the "infer" package, with alternative equals greater and p=0.5, to perform one-sided hypothesis testing if the proportion of male victims is greater than 50%. We created a segmented bar plot with geom_bar() function to visualize the total men and women killed by police in each ethnicity group. Gender is represented by color "fill = gender".
+Justification of Choices: We use "prop_test" function from the "infer" package, with alternative equals greater and p=0.5, to perform one-sided hypothesis testing if the proportion of male victims is greater than 50%. We chose this method since it allows us to generate a p value that indicates the probability of obtaining the sample statistics that we found through analysis, provided the null hypothesis is true. If the p value was less than .05 we could reject the null hypothesis, but if it was greater, we would fail to reject it. By conducting our hypothesis testing through this method we can better understand trends between gender and police killings.
+
 
 ### Sub-question 2: Household Income by Ethnicity
 
@@ -148,7 +152,9 @@ p_hat
 percentile_ci
 ```
 
-Justification of Choices: We use functions from the "infer" package to create 10,000 bootstrap simulation, calculate bootstrap stats "diff in means" , and construct a 95% confidence interval of difference of mean household income between white and non-white victims . To visualize the confidence interval and bootstrap distribution, we use visualize() & shade_confidence_interval() function which helps us to demonstrate the confidence interval on the bootstrap distribution. 
+Justification of Choices: Creating a 95% simulation based confidence interval allows us to investigate our research question since it allows us to better understand the differences in mean household income between white and non-white victims of police killings. The method was chosen since it allows us to claim, with 95% confidence, that the difference in mean household income between the two demographic groups falls between a certain range. If, through this method, we discovered that our 95% confidence interval does not include 0, or is consistently positive, we could conclude that the average household income for Caucasian individuals is greater than that of African Americans, and fail to reject the null hypothesis. As a result this method enhances our understanding of the research question.
+
+
 
 ### Sub-question 3): College, Unemployment, & Race/Ethnicity
 
@@ -183,7 +189,7 @@ ci_corr <- get_ci(boot_corr, level = .99)
 ci_corr
 ```
 
-Justification of Choices: To visualize the relationship of unemployment rate and college education rate across ethnicity groups, we create a dot plot using the "geom_point()" function with "x = college", "y = urate", and "color =raceethnicity". To construct a simulation based confidence interval, we first use "generate()" function from infer package and "calculate(stat= "correlation")" to create a 10k bootstrap distribution. Based on the bootstrap distribution, we create confidence interval using "get_ci()" function
+Justification of Choices: Creating a 99% simulation based confidence interval allows us to improve our understanding of the range in which the correlation between college graduation and unemployment lies. By quantifying this value, we can improve our understanding of the correlation between demographic variables and the trend seen in the earlier visualization.This allows us to better understand and answer the research question. 
 
 ## RESULTS
 
