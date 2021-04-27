@@ -17,18 +17,32 @@ library(sf)
 ```
 ## INTRODUCTION AND DATA
 
+### Sources and Glimpse of Dataset:
+Dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
+
+Additional sources: 
+https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
+https://thehill.com/changing-america/respect/equality/506421-90-percent-of-americans-believe-racism-police-brutality-are 
+
+```{r, echo=FALSE}
+urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv"
+police_killings<-read_csv(url(urlfile))
+police_killings <- police_killings %>% 
+  mutate(urate = urate *100, college = college *100, pov = as.numeric(pov))
+```
+
 ### Background and Motivation
 
 It is clear that the American Police Force is in need of reform. Throughout its history, various police departments across the country have taken the national spotlight for their roles in beating, killing, or generally mistreating people of color. In May of 2020, the issue again sparked outrage, as the nation watched officers in the Minnesota Police Department kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color. Police brutality is a widely acknowledged issue, with roughly 90 percent of the nation agreeing that racial disparities in police treatment exist, according to a Guardian poll. Because the issue is of such importance to national dialogue, and since most Americans agree that it presents a pressing problem, we thought it would be important to investigate it further. More specifically, our research will explore which communities, groups, or demographics are most impacted by police killings in the United States.
 
-```{r intro_data_visualization, fig.width=12, fig.height=8}
+```{r intro_data_visualization, fig.width= 12, fig.height=3}
 ggplot(data = police_killings, mapping = aes(x=state)) + 
   geom_bar() + 
   labs(title= "Number of Police Killings by State (January - June 2015)", x=
-  "State", y="Number of People Killed")
+  "State", y="Number of People Killed") +
+  theme_bw()
 ```
-
-This introductory figure, from our chosen "policekillings" dataset, motivates our group to explore this topic. As evident from the figure, police killings  impacted every single American state to some degree in 2015. Consequently, we felt compelled to better understand the demographics behind these numbers.
+This introductory figure, from our chosen "policekillings" dataset, shows that police killings impacted every single American state to some degree in 2015. 
 
 ### Dataset in question
 
@@ -38,21 +52,6 @@ The "policekillings" dataset overviews the demographics of individuals killed by
 
 GENERAL QUESTION: How do demographic factors differ among those who have been killed by the police?
 GENERAL HYPOTHESIS: We predict that on average, more men are killed by the police than women for every race/ethnicity. Between the races, we expect that Black and Hispanic/Latino people, on average, come from lower socioeconomic class and therefore have lower household incomes, college graduation rates, and employment rates.
-
-### Sources and Glimpse of Dataset:
-Dataset: https://github.com/fivethirtyeight/data/tree/master/police-killings 
-
-Additional sources: 
-https://www.nytimes.com/2020/05/31/us/george-floyd-investigation.html 
-https://thehill.com/changing-america/respect/equality/506421-90-percent-of-americans-believe-racism-police-brutality-are 
-
-```{r, warning = FALSE}
-urlfile="https://raw.githubusercontent.com/fivethirtyeight/data/master/police-killings/police_killings.csv"
-police_killings<-read_csv(url(urlfile))
-police_killings <- police_killings %>% 
-  mutate(urate = urate *100, college = college *100, pov = as.numeric(pov))
-```
-
 
 ## METHODOLOGY
 
@@ -81,7 +80,7 @@ police_killings %>%
             alternative = "greater", z = TRUE)
 ```
 
-```{r, fig.width=6, fig.height=3, include= FALSE}
+```{r, fig.width=6, fig.height=3}
 library(viridis)
 ggplot(data = police_killings, mapping = aes(x = raceethnicity, fill = gender)) + 
   geom_bar() +
@@ -123,7 +122,7 @@ police_killings %>%
 
 Now, to answer the research question, we constructed a simulation-based 95%  confidence interval. It is an interval of difference of household income between white and non-white victims (h_income_white - h_income_B/H). If the confidence interval on the plot captures zero, we cannot rule out the possibility that household income of white people maybe lower than that of Black & Hispanic people and we fail to reject the null hypothesis. If the entire confidence interval is consistently positive, then we obtain convincing evidence to reject the null hypothesis.
 
-```{r, fig.width=6, fig.height=3, include = FALSE}
+```{r, fig.width=6, fig.height=3}
 police_killings <- police_killings %>%
   mutate(black_hispanic = case_when(
     raceethnicity == "Black" ~ "B/H",
@@ -163,7 +162,7 @@ The third demographic relationship we want to investigate is the relationship be
 *Methodology*
 
 First, we want to visualize the relationship between college graduation and unemployment rate, so we make a plot of those variables with the points colored by race/ethnicity.
-```{r, fig.width=6, fig.height=3, include = FALSE}
+```{r, fig.width=6, fig.height=3}
 p <- ggplot(police_killings, aes(x = college, y = urate, color = raceethnicity)) +
   geom_point() +
   labs(title = "Relationship Between College Graduation and Unemployment Rate",
@@ -217,3 +216,5 @@ The statistical methods used to answer each research question were also appropri
 ### Improving Analysis, Future Work, What to do Differently
 
 We would like to analyze and visualize the absolute differences of chance being killed by police for male and female, in addition to the proportion of males among victims. We could also find data from other time periods and investigate how the patterns we observed changed over time. In addition, we could run a regression model to see how unemployment and education rate of a community influence the number of police killing cases there, which could be another interesting topic of exploration if we were to do this project again. Another aspect we would consider for statistical analysis in this project would be the influence of geographic location on police killings, which was a demographic factor we did not investigate.
+
+
