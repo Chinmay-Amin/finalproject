@@ -19,11 +19,21 @@ library(sf)
 
 ### Background and Motivation
 
-The American police force is notorious for needlessly beating and killing. Moreover, such killings and mistreatment tend to disproportionately impact Black Americans and other poc groups. In May of 2020, the issue again sparked outrage, as the nation watched policeman Derek Chauvin kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color, to a national spotlight. Our research study will analyze which communities and groups of people are most impacted by police killings. 
+It is clear that the American Police Force is in need of reform. Throughout its history, various police departments across the country have taken the national spotlight for their roles in beating, killing, or generally mistreating people of color. In May of 2020, the issue again sparked outrage, as the nation watched officers in the Minnesota Police Department kill George Floyd on video. The event brought discussion on the impacts of police brutality, particularly on communities of color. Police brutality is a widely acknowledged issue, with roughly 90 percent of the nation agreeing that racial disparities in police treatment exist, according to a Guardian poll. Because the issue is of such importance to national dialogue, and since most Americans agree that it presents a pressing problem, we thought it would be important to investigate it further. More specifically, our research will explore which communities, groups, or demographics are most impacted by police killings in the United States.
 
 ### Dataset in question
 
 The data overviews the demographics of individuals killed by police in the United States. This data was collected from The Guardian’s database on police killings, and census data from the American Community Survey. The Guardian’s database data was collected through verified crowdsourcing. The data was collected in 2015, and was used in the FiveThirtyEight article “Where Police Have Killed Americans in 2015.” The data is posted to the github page “fivethirtyeight/data” and can be found by the link. Relevant variables in the dataset include raceethnicity : Race/ethnicity of deceased, state : State where incident occurred, share_white : share of population that is nonhispanic / white, share_bloack: share of population that is black, month: month of killing.
+
+### Introductory visualization
+```{r intro_data_visualization, fig.width=12, fig.height=8}
+ggplot(data = police_killings, mapping = aes(x=state)) + 
+  geom_bar() + 
+  labs(title= "Number of Police Killings by State (January - June 2015)", x=
+  "State", y="Number of People Killed")
+```
+This introductory figure from data in policekillings in part demonstrates our interest in exploring this topic. As evident from the figure, police killings  impacted every single American state to some degree in 2015. Consequently, we felt compelled to better understand the demographics behind these numbers.
+
 
 ### Research Question and Hypothesis
 
